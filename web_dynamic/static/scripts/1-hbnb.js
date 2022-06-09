@@ -1,13 +1,14 @@
 document.addEventListener('DOMContentLoaded', () => {
-    let checkboxes = document.querySelectorAll(".each_amenity");
-    let amenitiesChecked_list = [];
-
-    document.addEventListener("change", function() {
-        checkboxes.forEach((checkbox) => {
-            if (checkbox.checked) {
-                amenitiesChecked_list += checkbox.getAttribute("data-name") + ", ";
+    const checked_list = {};
+    const checkbox = document.querySelectorAll('input[type=checkbox]').forEach(function (checks) {
+        checks.addEventListener("change", function () {
+            if (this.checked) {
+                checked_list[checks.getAttribute('data-id')] = checks.getAttribute('data-name');
             }
+            else {
+                delete checked_list[checks.getAttribute('data-id')];
+            }
+            document.querySelector(".amenities h4").textContent = Object.values(checked_list).join(', ');
         });
-        document.getElementById("amenities_selected").innerText = amenitiesChecked_list;
     });
 });
