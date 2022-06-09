@@ -28,13 +28,11 @@ document.addEventListener('DOMContentLoaded', () => {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({})
-    }).then(data => {
+    })
+    .then(response => response.json())
+    .then(data => {
             const section_place = document.querySelector(".places")
-            const res = data.json();
-            console.log(res);
-            for (let i = 0; i < res.length; i++) {
-                let place = res[i];
-                console.log(place);
+            for (let i = 0; i < data.length; i++) {
                 let article = document.createElement("article"),
                     title_box = document.createElement("div"),
                     title_name = document.createElement("h2"),
@@ -46,25 +44,25 @@ document.addEventListener('DOMContentLoaded', () => {
                     description = document.createElement("div");
 
                 title_box.setAttribute('class', 'title_box');
-                title_name.textContent = place.name;
+                title_name.innerHTML = data[i].name;
                 title_price.setAttribute('class', 'price_by_night');
-                title_price.textContent = place.price_by_night;
+                title_price.innerHTML = '$' + data[i].price_by_night;
                 title_box.appendChild(title_name);
                 title_box.appendChild(title_price);
                 
                 info.setAttribute('class', 'information');
                 info_guest.setAttribute('class', 'max_guest');
-                info_guest.textContent = place.max_guest;
-                info_rooms.setAttribute('classs', 'number_rooms');
-                info_rooms.textContent = place.number_rooms;
+                info_guest.innerHTML = data[i].max_guest + ' Guest' + (data[i].max_guest > 1 ? 's' : '');
+                info_rooms.setAttribute('class', 'number_rooms');
+                info_rooms.innerHTML = data[i].number_rooms + ' Bedroom' + (data[i].number_rooms > 1 ? 's' : '');
                 info_bathrooms.setAttribute('class', 'number_bathrooms');
-                info_bathrooms.textContent = place.number_bathrooms;
+                info_bathrooms.innerHTML = data[i].number_bathrooms + ' Bathroom' + (data[i].number_bathrooms > 1 ? 's' : '');
                 info.appendChild(info_guest);
                 info.appendChild(info_rooms);
                 info.appendChild(info_bathrooms);
 
                 description.setAttribute('class', 'description');
-                description.textContent = place.description;
+                description.innerHTML = data[i].description;
 
                 article.appendChild(title_box);
                 article.appendChild(info);
